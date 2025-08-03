@@ -3,7 +3,7 @@
 
 ## Schema Diagram:
 
-<img src=schema_diagram.png title="Schema Diagram" height=500 />
+<p align="center"><img src=schema_diagram.png title="Schema Diagram" height=500 /></p>
 
 
 ---
@@ -188,3 +188,4 @@ group by billing_country,c.first_name+' '+c.last_name,i.customer_id
 ) as x
 where ranks = 1
 ```
+
