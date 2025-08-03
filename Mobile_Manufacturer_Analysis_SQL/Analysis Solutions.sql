@@ -12,8 +12,9 @@ SELECT * FROM FACT_TRANSACTIONS
 SELECT * FROM DIM_MODEL
 
 
---Q1--BEGIN 
-	
+-- Q1. List all the states in which we have customers who have bought cellphones from 2005 till today. 
+--BEGIN
+
 SELECT DISTINCT	L.State,L.Country, Date
 FROM	DIM_LOCATION L
 JOIN	FACT_TRANSACTIONS T
@@ -24,7 +25,8 @@ ORDER BY Date
 --Q1--END
 
 
---Q2--BEGIN
+--Q2. What state in the US is buying the most 'Samsung' cell phones?  
+--BEGIN
 	
 SELECT  State,Country, Manufacturer_Name, 
 		COUNT(*) NO_OF_PHONES_BOUGHT									--Counts the number of repetition of the State that is Ranked 1.
@@ -48,7 +50,8 @@ GROUP BY
 
 --Q2--END
 
---Q3--BEGIN     
+--Q3. Show the number of transactions for each model per zip code per state.
+--BEGIN     
 
 SELECT		IDModel, ZipCode, State,
 			COUNT(IDCustomer) AS No_of_Transactions
@@ -61,7 +64,8 @@ ORDER BY	IDModel, ZipCode, State
 --Q3--END
 
 
---Q4--BEGIN
+--Q4. Show the cheapest cellphone (Output should contain the price also).
+--BEGIN
 
 SELECT	TOP 1	T.IDModel,MF.Manufacturer_Name,M.Model_Name,
 				TotalPrice/Quantity as [Cheapest Price]		--To get the bottom priced phone
@@ -76,7 +80,8 @@ ORDER BY
 --Q4--END
 
 
---Q5--BEGIN
+--Q5.  Find out the average price for each model in the top5 manufacturers in terms of sales quantity and order by average price. 
+--BEGIN
 
 SELECT		top 5 Manufacturer_Name,T.IDModel,
 			AVG(TotalPrice) AveragePrice, 
@@ -92,7 +97,8 @@ ORDER BY	AveragePrice DESC
 --Q5--END
 
 
---Q6--BEGIN
+--Q6. List the names of the customers and the average amount spent in 2009, where the average is higher than 500.
+--BEGIN
 
 SELECT		T.IDCustomer, Customer_Name, Email, Phone,T.Date,	
 			AVG(TotalPrice) AVERAGE_AMOUNT
@@ -108,7 +114,8 @@ HAVING		AVG(TotalPrice)>500
 --Q6--END
 
 	
---Q7--BEGIN  
+--Q7. List if there is any model that was in the top 5 in terms of quantity, simultaneously in 2008, 2009 and 2010.
+--BEGIN  
 
 SELECT * FROM (
 		SELECT TOP 5 IDMODEL FROM FACT_TRANSACTIONS
@@ -131,7 +138,8 @@ SELECT * FROM (
 --Q7--END	
 
 
---Q8--BEGIN
+--Q8. Show the manufacturer with the 2nd top sales in the year of 2009 and the manufacturer with the 2nd top sales in the year of 2010.
+--BEGIN
 
 SELECT DISTINCT * FROM		
 		(SELECT		T.IDModel, Model_Name, Manufacturer_Name, 
@@ -151,7 +159,8 @@ WHERE RANKS=2
 --Q8--END
 
 
---Q9--BEGIN
+--Q9. Show the manufacturers that sold cellphones in 2010 but did not in 2009.
+--BEGIN
 	
 SELECT		MF.Manufacturer_Name
 FROM		FACT_TRANSACTIONS T
@@ -174,7 +183,8 @@ GROUP BY	MF.Manufacturer_Name
 --Q9--END
 
 
---Q10--BEGIN
+--Q10. Find top 100 customers and their average spend, average quantity by each year. Also find the percentage of change in their spend. 
+--BEGIN
 	
 SELECT *, (AVG_PRICE - LAG_PRICE)/LAG_PRICE AS PERCENTAGE_CHANGE FROM (
 SELECT *, LAG(AVG_PRICE,1) OVER(PARTITION BY IDCUSTOMER ORDER BY YEAR) AS LAG_PRICE FROM (
@@ -189,3 +199,4 @@ GROUP BY IDCustomer, YEAR(Date)
 
 --Q10--END
 	
+
