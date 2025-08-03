@@ -16,7 +16,7 @@ The first four store entries for the respective elements and Fact_Transactions s
 
 ### ER Relationship:
 
-<img src=images/sqldatabaseschema.png height="450">
+<p align="center"><img src=images/sqldatabaseschema.png height="450"></p>
 
 
 
